@@ -10,6 +10,7 @@ public class CharacterControl : MonoBehaviour {
 	//[HideInInspector]//
 	public bool isLookingRight = true;
 	public bool isGrounded = true;
+	public bool whiteMask = false;
 	CharacterController cc;
 
 
@@ -33,6 +34,7 @@ public class CharacterControl : MonoBehaviour {
 
 		moveDirection.x += velocity;
 		moveDirection.x = Mathf.Clamp (moveDirection.x, -maxSpeed, maxSpeed);
+		cc.radius = 0.4f+Mathf.Sin (Time.time*10f) * 0.051f;
 		//moveDirection.x *= 0.98f;
 
 		if (!cc.isGrounded) {
@@ -44,9 +46,33 @@ public class CharacterControl : MonoBehaviour {
 
 			isGrounded=true;
 			moveDirection.y = 0; //theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
-			if (Input.GetAxis ("Vertical")>0.01f) {
+			moveDirection.y =  -gravity * Time.deltaTime;
+			if (Input.GetButtonDown ("Jump")) {
 				moveDirection.y = jumpForce ;
 				Debug.Log("Jump:"+jumpForce);
+
+			}
+			if (Input.GetButtonDown ("Fire3") && cc.height == 2.98f) {
+				cc.height = 1.5f;
+			} else {
+			
+				if (Input.GetButtonDown ("Fire3") && cc.height == 1.5f) {
+					cc.height = 2.98f;
+
+					}
+			}
+
+			if (Input.GetButtonDown ("Fire2") && whiteMask == false){
+				maxSpeed = 15;
+				whiteMask = true;
+
+			} else {
+				
+				if (Input.GetButtonDown ("Fire2") && whiteMask == true) {
+					maxSpeed = 7;
+					whiteMask = false;
+					
+				}
 			}
 		}
 
@@ -60,6 +86,7 @@ public class CharacterControl : MonoBehaviour {
 
 
 	}
+
 
 	void OnControllerColliderHit(ControllerColliderHit hit) {
 		if (hit.collider.gameObject.layer != 9) return;
@@ -75,7 +102,7 @@ public class CharacterControl : MonoBehaviour {
 		if (dot >= 0)
 			return;
 		Vector2 nv = v-(n*(dot*2f));
-		Debug.Log(""+n+v+nv+" "+dot);
+		Debug.Log(""+n+v+nv+" "+dot+" "+hit.gameObject.name+" "+hit.point);
 
 		moveDirection = new Vector3 (nv.x, nv.y, 0) * 0.75f;
 
