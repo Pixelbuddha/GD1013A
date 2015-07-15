@@ -7,25 +7,37 @@ public class CharacterControl : MonoBehaviour {
 	public float jumpForce = 10;
 	public float gravity = 9.81f;
 	public Vector3 moveDirection = Vector3.zero; //Eine Varibale vom Typ Vector3 (x,y,z) gesetzt auf (0,0,0)
-	//[HideInInspector]//
+
 	public bool isLookingRight = true;
-	public bool isGrounded = true;
-	public bool orangeMask = false;
+	public bool isGroundedDebug = true;
+
 	CharacterController cc;
 
 	//
 	////////////////////////////////////////////////////////////////////////////
 	//Masken
 
+	enum MaskType{
+		white = 0,
+		orange = 1,
+		red = 2,
+		yellow = 3
+	};
+
+	public int activeMask = 1;
+	public bool [] masksFound;
+	
 	void Start () 
 	{	
 		cc = GetComponent<CharacterController>();
-	}
+		masksFound = new bool[] { true, false, false, false}; 	// initiieren des Masken Arrays
 
-	///
+	}
+	
 
 	void Update () {
 		Move ();
+		MaskController ();
 
 	}
 
@@ -33,88 +45,77 @@ public class CharacterControl : MonoBehaviour {
 	{
 		float velocity = Input.GetAxis ("Horizontal");
 
-		moveDirection.x += velocity;
-		moveDirection.x = Mathf.Clamp (moveDirection.x, -maxSpeed, maxSpeed);
-		cc.radius = 0.4f+Mathf.Sin (Time.time*10f) * 0.051f;
-		//moveDirection.x *= 0.98f;
+		moveDirection.x += velocity;											// Links Rechts Input
+		moveDirection.x = Mathf.Clamp (moveDirection.x, -maxSpeed, maxSpeed);	// Begrenzung min und max Speed (Clamp)
+		cc.radius = 0.4f+Mathf.Sin (Time.time*10f) * 0.051f;					// jitter aka Herumskalieren um nicht in Ecken hängenzubleiben (Der Entzitterer)
+		//moveDirection.x *= 0.98f;												// Luftreibung
 
-		if (!cc.isGrounded) {
-			moveDirection.y -= gravity * Time.deltaTime;
-			isGrounded=false;
-		} else {
-			if (Mathf.Abs(velocity) < 0.9)
-				moveDirection.x *= 0.175f;
+		if (!cc.isGrounded) {													// Wenn in Luft
+			moveDirection.y -= gravity * Time.deltaTime;						// mach Gravitiy an (Beschleunigend Linear)
+			isGroundedDebug = false;											// Anzeige um zu schauen ob isGrounded Aktiv ist
+		} else {																// Wenn nicht in Luft
+			if (Mathf.Abs(velocity) < 0.9)										// Für Keyboardsteuerung, Sobald Horizontal Wert unter 0.9 sinkt (kurz nach loslassender Taste), Bremse
+				moveDirection.x *= 0.175f;										// Wert für Bremsstärke
 
-			isGrounded=true;
-			moveDirection.y = 0; //theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
-			moveDirection.y =  -gravity * Time.deltaTime;
-			if (Input.GetButtonDown ("Jump")) {
-				moveDirection.y = jumpForce ;
-				Debug.Log("Jump:"+jumpForce);
+			isGroundedDebug=true;												//Debug Anzeige wieder
+			moveDirection.y = 0; 												//theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
+			moveDirection.y =  -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
+			if (Input.GetButtonDown ("Jump")) {									// Steuerungseingabe (Keyboard Spacebar, Controller das dementsprechende)
+				moveDirection.y = jumpForce ;									// hcchspringen
+				Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
 
 			}
-			if (Input.GetButtonDown ("Fire3") && cc.height == 2.98f) {
-				cc.height = 1.5f;
+			if (Input.GetButtonDown ("Fire3") && cc.height == 2.98f) {			// Crouch Funktion
+				cc.height = 1.5f;												// Mach Hitbox Kleiner
 			} else {
 			
 				if (Input.GetButtonDown ("Fire3") && cc.height == 1.5f) {
-					cc.height = 2.98f;
+					cc.height = 2.98f;											// Mach Hitbox Größer
 
 					}
 			}
 
-			if (Input.GetButtonDown ("Fire2") && orangeMask == false){
-				maxSpeed = 15;
-				jumpForce = 13;
-				orangeMask = true;
 
-			} else {
-				
-				if (Input.GetButtonDown ("Fire2") && orangeMask == true) {
-					maxSpeed = 7;
-					jumpForce = 10;
-					orangeMask = false;
-					
-				}
-			}
 		}
 
-		cc.Move (moveDirection * Time.deltaTime);
-		// x = Ich bewege mich pro Frame um 1/FPS
-		// y = Ich bewege mich pro Frame um gravity/Fps²
+		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
 
 
-		if ((velocity > 0 && !isLookingRight) || (velocity < 0 && isLookingRight))
-			Flip ();
+		if ((velocity > 0 && !isLookingRight) || (velocity < 0 && isLookingRight))	// wenn wir uns nach links bewegen und nach rechts schauen oder umgekehrt
+			Flip ();																// dann dreh dich um
 
 
 	}
 
 
-	void OnControllerColliderHit(ControllerColliderHit hit) {
+	void OnControllerColliderHit(ControllerColliderHit hit) {						// funktion fürs Abprallen von Wänden und Decken beim Gegenspringen und Gegenlaufen
 		if (hit.collider.gameObject.layer != 9) return;
+
+
 		//Basically if you have a vector v, which represents the object's velocity, and a normalized normal vector n,
 		//which is perpendicular to the surface with which the object collides, then the new velocity v' is given by the equation:
 		//v' = 2 * (v . n) * n - v;
 		//Where '*' is the scalar multiplication operator, '.' is the dot product of two vectors, and '-' is the subtraction operator for two vectors. v is reflected off of the surface, and gives a reflection vector v' which is used as the new velocity of the object. 
-		Vector2 n = new Vector2 (hit.normal.x, hit.normal.y);
-		Vector2 v = new Vector2 (moveDirection.x, moveDirection.y);
-		if (n.y > 0)
-			return;
-		float dot = Vector2.Dot (v, n);
-		if (dot >= 0)
-			return;
-		Vector2 nv = v-(n*(dot*2f));
-		Debug.Log(""+n+v+nv+" "+dot+" "+hit.gameObject.name+" "+hit.point);
 
-		moveDirection = new Vector3 (nv.x, nv.y, 0) * 0.75f;
+
+		Vector2 n = new Vector2 (hit.normal.x, hit.normal.y);						// Krasse
+		Vector2 v = new Vector2 (moveDirection.x, moveDirection.y);					// Mathematische
+		if (n.y > 0)																// Berechnungen
+			return;																	// um
+		float dot = Vector2.Dot (v, n);												// cool
+		if (dot >= 0)																// Abprallen
+			return;																	// zu
+		Vector2 nv = v-(n*(dot*2f));												// können
+		Debug.Log(""+n+v+nv+" "+dot+" "+hit.gameObject.name+" "+hit.point);			// :)
+
+		moveDirection = new Vector3 (nv.x, nv.y, 0) * 0.75f;						// ausführen des Abprallens
 
 	}
 
 
-	public void Flip()
+	public void Flip()																// die "ich Dreh mich um Funktion"
 	{
-		isLookingRight = !isLookingRight;
+		isLookingRight = !isLookingRight;											//Eigentlich selbsterklärend
 		Vector3 myScale = transform.localScale;
 		myScale.x *= -1;
 		transform.localScale = myScale;
@@ -123,8 +124,81 @@ public class CharacterControl : MonoBehaviour {
 
 
 
-	//////
-	/// Masken
+	///
+	/// Masken//////////////////////
+	/// 
+
+	void NextMask(){
+
+		do {											// mache
+			activeMask ++;								// nächste Maske Auswählen
+			if (activeMask >= masksFound.Length) {		// Wenn am Ende angekommen
+				activeMask = 0;							// Mach am Anfang weiter
+			}
+		} while (masksFound[activeMask] = false);		// Während die aktuelle Maske noch nicht gefunden mache
+
+		MaskUpdate ();									// Rufe die Funktionen der Aktuellen Maske auf
+	}
 
 
+	void PreviousMask(){								// Das Gleiche nur in die Andere Richtung
+
+		do {
+			activeMask --;
+			if (activeMask < 0) {
+				activeMask = masksFound.Length -1;		// Wenn am Anfang angekommen mache am Ende weiter
+			}
+		} while (masksFound[activeMask] = false);
+
+		MaskUpdate ();									// bump
+	}
+
+
+
+	void MaskUpdate(){									// Was die Einzelnen Masken können, und dass die Funktion
+
+		jumpForce = 10;									// der Momentan ausgewählten Maske
+		maxSpeed = 7;
+		//healthreg = - X								// auch ausgeführt wird.
+
+		if (activeMask == MaskType.white) {				// Weisse Maske (Im Array Platz 0)
+			//healthreg = +Y;
+		}
+
+		if (activeMask == MaskType.orange) {			// Orangene Maske (Im Array Platz 1)
+			jumpForce = 13;
+			maxSpeed = 10;
+
+		}
+
+		if (activeMask == MaskType.red) {				// Rote Maske (Im Array Platz 2)
+			jumpForce = 20;
+			maxSpeed = 5;
+		}
+
+		if (activeMask == MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
+			jumpForce = 5;
+			maxSpeed = 50;			
+		}
+
+	}
+
+
+	void MaskController(){								// Die Funktion die Masken zu wechseln
+
+
+
+		if (Input.GetKeyDown("Q") ){					// Nächste Maske
+			NextMask();
+		}
+
+		
+		if (Input.GetKeyDown("E") ){					// Vorherige Maske
+			PreviousMask();
+		}
+
+	}
+	
+		
 }
+	
