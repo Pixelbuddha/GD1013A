@@ -10,11 +10,11 @@ public class CharacterControl : MonoBehaviour {
 	//[HideInInspector]//
 	public bool isLookingRight = true;
 	public bool isGrounded = true;
-	public bool whiteMask = false;
+	public bool orangeMask = false;
 	CharacterController cc;
 
 
-	////////////////////////////////////////////////////////////////////////////fgh
+	////////////////////////////////////////////////////////////////////////////
 
 	void Start () 
 	{	
@@ -62,15 +62,15 @@ public class CharacterControl : MonoBehaviour {
 					}
 			}
 
-			if (Input.GetButtonDown ("Fire2") && whiteMask == false){
+			if (Input.GetButtonDown ("Fire2") && orangeMask == false){
 				maxSpeed = 15;
-				whiteMask = true;
+				orangeMask = true;
 
 			} else {
 				
-				if (Input.GetButtonDown ("Fire2") && whiteMask == true) {
+				if (Input.GetButtonDown ("Fire2") && orangeMask == true) {
 					maxSpeed = 7;
-					whiteMask = false;
+					orangeMask = false;
 					
 				}
 			}
