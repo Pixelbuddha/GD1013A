@@ -4,7 +4,7 @@ using System.Collections;
 public class CharacterControl : MonoBehaviour {
 
 	public float maxSpeed = 20;
-	public float jumpForce = 5;
+	public float jumpForce = 10;
 	public float gravity = 9.81f;
 	public Vector3 moveDirection = Vector3.zero; //Eine Varibale vom Typ Vector3 (x,y,z) gesetzt auf (0,0,0)
 	//[HideInInspector]//
@@ -13,8 +13,9 @@ public class CharacterControl : MonoBehaviour {
 	public bool orangeMask = false;
 	CharacterController cc;
 
-
+	//
 	////////////////////////////////////////////////////////////////////////////
+	//Masken
 
 	void Start () 
 	{	
@@ -64,12 +65,14 @@ public class CharacterControl : MonoBehaviour {
 
 			if (Input.GetButtonDown ("Fire2") && orangeMask == false){
 				maxSpeed = 15;
+				jumpForce = 13;
 				orangeMask = true;
 
 			} else {
 				
 				if (Input.GetButtonDown ("Fire2") && orangeMask == true) {
 					maxSpeed = 7;
+					jumpForce = 10;
 					orangeMask = false;
 					
 				}
@@ -117,6 +120,11 @@ public class CharacterControl : MonoBehaviour {
 		transform.localScale = myScale;
 	}
 
+
+
+
+	//////
+	/// Masken
 
 
 }
