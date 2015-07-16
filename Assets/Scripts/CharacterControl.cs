@@ -1,6 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+///SHIT TO DO
+/// bumping von den MAuern schwächer
+/// hitox??
+/// damage soll mal funktionieren
+/// übertragen auf GUI
+/// GUI Masken
+/// Crushing Walls
+/// Steuerung muss auch mit Controller gehen
+
+
 public class CharacterControl : MonoBehaviour {
 
 	public float maxSpeed = 20;
@@ -24,13 +35,13 @@ public class CharacterControl : MonoBehaviour {
 		yellow = 3
 	};
 
-	public int activeMask = 1;
+	public int activeMask = 0;
 	public bool [] masksFound;
 	
 	void Start () 
 	{	
 		cc = GetComponent<CharacterController>();
-		masksFound = new bool[] { true, false, false, false}; 	// initiieren des Masken Arrays
+		masksFound = new bool[] { true, true, true, true}; 	// initiieren des Masken Arrays
 
 	}
 	
@@ -130,9 +141,10 @@ public class CharacterControl : MonoBehaviour {
 
 	void NextMask(){
 
+
 		do {											// mache
-			activeMask ++;								// nächste Maske Auswählen
-			if (activeMask >= masksFound.Length) {		// Wenn am Ende angekommen
+			activeMask ++;									// nächste Maske Auswählen
+			if (activeMask > masksFound.Length) {		// Wenn am Ende angekommen
 				activeMask = 0;							// Mach am Anfang weiter
 			}
 		} while (masksFound[activeMask] = false);		// Während die aktuelle Maske noch nicht gefunden mache
@@ -143,8 +155,9 @@ public class CharacterControl : MonoBehaviour {
 
 	void PreviousMask(){								// Das Gleiche nur in die Andere Richtung
 
+		activeMask --;
 		do {
-			activeMask --;
+
 			if (activeMask < 0) {
 				activeMask = masksFound.Length -1;		// Wenn am Anfang angekommen mache am Ende weiter
 			}
@@ -161,26 +174,26 @@ public class CharacterControl : MonoBehaviour {
 		maxSpeed = 7;
 		//healthreg = - X								// auch ausgeführt wird.
 
-		if (activeMask == MaskType.white) {				// Weisse Maske (Im Array Platz 0)
+		if (activeMask == (int)MaskType.white) {				// Weisse Maske (Im Array Platz 0)
 			//healthreg = +Y;
 		}
 
-		if (activeMask == MaskType.orange) {			// Orangene Maske (Im Array Platz 1)
+		if (activeMask == (int)MaskType.orange) {			// Orangene Maske (Im Array Platz 1)
 			jumpForce = 13;
 			maxSpeed = 10;
 
 		}
 
-		if (activeMask == MaskType.red) {				// Rote Maske (Im Array Platz 2)
+		if (activeMask == (int)MaskType.red) {				// Rote Maske (Im Array Platz 2)
 			jumpForce = 20;
 			maxSpeed = 5;
 		}
 
-		if (activeMask == MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
+		if (activeMask == (int)MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
 			jumpForce = 5;
 			maxSpeed = 50;			
 		}
-
+		// had to cast enum to (int) bc Unity couldnt match the int activeMask to the enum MaskType on its own //
 	}
 
 
@@ -188,14 +201,15 @@ public class CharacterControl : MonoBehaviour {
 
 
 
-		if (Input.GetKeyDown("Q") ){					// Nächste Maske
+		if (Input.GetKeyDown(KeyCode.E) ){					// Nächste Maske
 			NextMask();
 		}
 
 		
-		if (Input.GetKeyDown("E") ){					// Vorherige Maske
+		if (Input.GetKeyDown(KeyCode.Q) ){					// Vorherige Maske
 			PreviousMask();
 		}
+		Debug.Log("" + activeMask);
 
 	}
 	
