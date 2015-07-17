@@ -22,42 +22,42 @@ public class HealthController : MonoBehaviour {
 			health = startHealth;
 			//lifePoints = startLifePoints;
 		} else {
-			health = PlayerPrefs.GetFloat("Health");
+			//health = PlayerPrefs.GetFloat("Health");
 			//lifePoints = PlayerPrefs.GetInt("LifePoints");
 		}
 
-
+		/*
 
 		health = PlayerPrefs.GetFloat ("Health");
 		//lifePoints = PlayerPrefs.GetInt ("LifePoints");
-
+*/
 	}
 	
 	// Update is called once per frame
 
 
 	void ApplyDamage(int damage) {
-
-		if (isDamageable) {
+		//if (isDamageable) {
 			health -= damage;
-		
-			health = Mathf.Max (0, health);
-		
-			if (isDead) {
-				return;
-			}
-			if (health == 0) {
-				isDead = true;
-				Die ();
-			} else {
-				if (isDamageable) {
-					Damaging ();
-				}
-			}
+			currenthealth = health;		//Anzeige
 
-			isDamageable = false;
-			Invoke ("ResetIsDamageable", 1);
+		health = Mathf.Max (0, health);
+		
+		if (isDead) {
+			return;
 		}
+		if (health == 0) {
+			isDead = true;
+			Die ();
+		} else {
+			if (isDamageable) {
+				Damaging ();
+			}
+		}
+		
+		isDamageable = false;
+		Invoke ("ResetIsDamageable", 5);
+		//}
 
 	}
 
@@ -102,12 +102,13 @@ public class HealthController : MonoBehaviour {
 
 
 	}
-
+	/*
 	void OnDestroy() {
 		PlayerPrefs.SetFloat ("Health", health);			//PlayerPrefs speichert Werte zwischen Game Sessions, also auch wenn man das Spiel schliesst und dann neu ladet
 		// PlayerPrefs.SetInt("LifePoints", lifePoints);
 
 	}
+	*/
 
 }
 

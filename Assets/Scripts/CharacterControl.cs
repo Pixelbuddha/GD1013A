@@ -4,12 +4,16 @@ using System.Collections;
 
 ///SHIT TO DO
 /// bumping von den MAuern schwächer
-/// hitox??
+/// hitbox??
 /// damage soll mal funktionieren
-/// übertragen auf GUI
+/// übertragen auf GUI - done
 /// GUI Masken
 /// Crushing Walls
 /// Steuerung muss auch mit Controller gehen
+/// 
+/// Checkpoint sachen im Checkpoint Speichern, keine Playerprefs
+/// Leben, Position etc im Checkpoint speichern, und bei tot von dort aufrufen
+/// 
 
 
 public class CharacterControl : MonoBehaviour {
@@ -100,7 +104,8 @@ public class CharacterControl : MonoBehaviour {
 
 
 	void OnControllerColliderHit(ControllerColliderHit hit) {						// funktion fürs Abprallen von Wänden und Decken beim Gegenspringen und Gegenlaufen
-		if (hit.collider.gameObject.layer != 9) return;
+		if (hit.collider.gameObject.layer != 9)
+			return;
 
 
 		//Basically if you have a vector v, which represents the object's velocity, and a normalized normal vector n,
@@ -111,16 +116,18 @@ public class CharacterControl : MonoBehaviour {
 
 		Vector2 n = new Vector2 (hit.normal.x, hit.normal.y);						// Krasse
 		Vector2 v = new Vector2 (moveDirection.x, moveDirection.y);					// Mathematische
-		if (n.y > 0)																// Berechnungen
-			return;																	// um
-		float dot = Vector2.Dot (v, n);												// cool
-		if (dot >= 0)																// Abprallen
-			return;																	// zu
-		Vector2 nv = v-(n*(dot*2f));												// können
-		Debug.Log(""+n+v+nv+" "+dot+" "+hit.gameObject.name+" "+hit.point);			// :)
+		//if (n.y > 3f) {
+			if (n.y > 0)																// Berechnungen
+				return;																	// um
+			float dot = Vector2.Dot (v, n);												// cool
+			if (dot >= 0)																// Abprallen
+				return;																	// zu
+			Vector2 nv = v - (n * (dot * 2f));												// können
+			Debug.Log ("" + n + v + nv + " " + dot + " " + hit.gameObject.name + " " + hit.point);			// :)
 
-		moveDirection = new Vector3 (nv.x, nv.y, 0) * 0.75f;						// ausführen des Abprallens
+			moveDirection = new Vector3 (nv.x, nv.y, 0) * 0.75f;						// ausführen des Abprallens
 
+		//}
 	}
 
 
@@ -143,9 +150,12 @@ public class CharacterControl : MonoBehaviour {
 
 
 		do {											// mache
-			activeMask ++;									// nächste Maske Auswählen
-			if (activeMask > masksFound.Length) {		// Wenn am Ende angekommen
+												// nächste Maske Auswählen
+			if (activeMask == masksFound.Length) {		// Wenn am Ende angekommen
 				activeMask = 0;							// Mach am Anfang weiter
+			}
+			else {
+				activeMask ++;
 			}
 		} while (masksFound[activeMask] = false);		// Während die aktuelle Maske noch nicht gefunden mache
 
