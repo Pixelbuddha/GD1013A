@@ -18,6 +18,9 @@ using System.Collections;
 public class CharacterControl : MonoBehaviour {
 
 	public const int layerNumber = 9;
+	public float maxHitHeight = 2.98f;
+	public float minHitHeight = 1.5f;
+
 	public float maxSpeed = 20;
 	public float jumpForce = 10;
 	public float gravity = 9.81f;
@@ -60,7 +63,10 @@ public class CharacterControl : MonoBehaviour {
 	{
 		float velocity = Input.GetAxis ("Horizontal");
 
+//		ControllerColliderHit schraeg_hit = new ControllerColliderHit();
+//		Vector2 schraeg = new Vector2 (schraeg_hit.normal.x, schraeg_hit.normal.y);
 		moveDirection.x += velocity;											// Links Rechts Input
+		//moveDirection.y += velocity ;
 		moveDirection.x = Mathf.Clamp (moveDirection.x, -maxSpeed, maxSpeed);	// Begrenzung min und max Speed (Clamp)
 		cc.radius = 0.4f+Mathf.Sin (Time.time*10f) * 0.051f;					// jitter aka Herumskalieren um nicht in Ecken hängenzubleiben (Der Entzitterer)
 		//moveDirection.x *= 0.98f;												// Luftreibung
@@ -80,17 +86,18 @@ public class CharacterControl : MonoBehaviour {
 				Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
 
 			}
-			if (Input.GetButtonDown ("Fire3") && cc.height == 2.98f) {			// Crouch Funktion
-				cc.height = 1.5f;												// Mach Hitbox Kleiner
-			} else {
+			if (activeMask != (int)MaskType.orange) {	
+				if (Input.GetButtonDown ("Fire3") && cc.height == maxHitHeight) {			// Crouch Funktion
+					cc.height = minHitHeight;												// Mach Hitbox Kleiner
+				} else {
 			
-				if (Input.GetButtonDown ("Fire3") && cc.height == 1.5f) {
-					cc.height = 2.98f;											// Mach Hitbox Größer
+					if (Input.GetButtonDown ("Fire3") && cc.height == minHitHeight) {
+						cc.height = maxHitHeight;											// Mach Hitbox Größer
 
-					}
+						}
+				}
+
 			}
-
-
 		}
 
 		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
@@ -193,6 +200,9 @@ public class CharacterControl : MonoBehaviour {
 			maxSpeed = 10;
 
 		}
+
+		if (cc.height == minHitHeight) 
+			return;
 
 		if (activeMask == (int)MaskType.red) {				// Rote Maske (Im Array Platz 2)
 			jumpForce = 20;
