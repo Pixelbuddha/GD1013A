@@ -2,8 +2,7 @@
 using System.Collections;
 
 
-///SHIT TO DO
-/// bumping von den MAuern schwächer
+///	SHIT TO DO
 /// hitbox??
 /// damage soll mal funktionieren
 /// übertragen auf GUI - done
@@ -18,6 +17,7 @@ using System.Collections;
 
 public class CharacterControl : MonoBehaviour {
 
+	public const int layerNumber = 9;
 	public float maxSpeed = 20;
 	public float jumpForce = 10;
 	public float gravity = 9.81f;
@@ -104,7 +104,7 @@ public class CharacterControl : MonoBehaviour {
 
 
 	void OnControllerColliderHit(ControllerColliderHit hit) {						// funktion fürs Abprallen von Wänden und Decken beim Gegenspringen und Gegenlaufen
-		if (hit.collider.gameObject.layer != 9)
+		if (hit.collider.gameObject.layer != layerNumber)
 			return;
 
 
@@ -117,7 +117,7 @@ public class CharacterControl : MonoBehaviour {
 		Vector2 n = new Vector2 (hit.normal.x, hit.normal.y);						// Krasse
 		Vector2 v = new Vector2 (moveDirection.x, moveDirection.y);					// Mathematische
 		//if (n.y > 3f) {
-			if (n.y > 0)																// Berechnungen
+			if (n.y >= -0.1)																// Berechnungen
 				return;																	// um
 			float dot = Vector2.Dot (v, n);												// cool
 			if (dot >= 0)																// Abprallen
@@ -151,7 +151,7 @@ public class CharacterControl : MonoBehaviour {
 
 		do {											// mache
 												// nächste Maske Auswählen
-			if (activeMask == masksFound.Length) {		// Wenn am Ende angekommen
+			if (activeMask == masksFound.Length - 1) {		// Wenn am Ende angekommen
 				activeMask = 0;							// Mach am Anfang weiter
 			}
 			else {
