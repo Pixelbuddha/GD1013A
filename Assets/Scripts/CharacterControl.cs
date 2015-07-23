@@ -189,6 +189,7 @@ public class CharacterControl : MonoBehaviour {
 		do {
 			
 			if (activeMask < 0) {
+				Debug.Log (masksFound.Length);
 				activeMask = masksFound.Length -1;		// Wenn am Anfang angekommen mache am Ende weiter
 			}
 		} while (masksFound[activeMask] = false);
