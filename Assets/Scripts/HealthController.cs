@@ -1,63 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour {
 	
-	public int startHealth = 5;
-	public float currenthealth;
+	public int startHealth = 100;
 	//public int statLifePoints = 3;
-	private float health = 5;
+	private float health;
 	private bool isDead = false;
 	private bool isDamageable = true;
 	//private int lifePoints = 3;
 	
 	public CharacterControl player;
+
+	// GUI
+
+	public Image healthGUI;
 	
 	void Start () {
 		//anim = GetComponent<Animator>();
 		player = GetComponent<CharacterControl> ();
-		currenthealth = health;
+		health = startHealth;
 		//Der Level-Index muss dem Spiel entsprechend angepasst werden, wenn es z.B. eine begrüßungsszene gibt (oder ein Hauptmenü)
 		if (Application.loadedLevel == 0) {
-			health = startHealth;
-			//lifePoints = startLifePoints;
-		} else {
-			//health = PlayerPrefs.GetFloat("Health");
-			//lifePoints = PlayerPrefs.GetInt("LifePoints");
+
+
+			UpdateView();
 		}
-
-		/*
-
-		health = PlayerPrefs.GetFloat ("Health");
-		//lifePoints = PlayerPrefs.GetInt ("LifePoints");
-*/
 	}
-	
-	// Update is called once per frame
 
 
 	void ApplyDamage(int damage) {
-		//if (isDamageable) {
+		if (isDamageable) {
 			health -= damage;
-			currenthealth = health;		//Anzeige
 
-		health = Mathf.Max (0, health);
+			health = Mathf.Max (0, health);
 		
-		if (isDead) {
-			return;
-		}
-		if (health == 0) {
-			isDead = true;
-			Die ();
-		} else {
-			if (isDamageable) {
-				Damaging ();
+			if (isDead) {
+				return;
 			}
+			if (health == 0) {
+				isDead = true;
+				Die ();
+			} else {
+				if (isDamageable) {
+					Damaging ();
+				}
+			}
+			Debug.Log ("" + health + "");
+			isDamageable = false;
+			Invoke ("ResetIsDamageable", 1);
 		}
-		Debug.Log ("" + health + "");
-		isDamageable = false;
-		Invoke ("ResetIsDamageable", 5);
-		//}
 
 	}
 
@@ -72,9 +65,10 @@ public class HealthController : MonoBehaviour {
 		//if (lifepoints <=0){
 		//Invoke("StartGame",3);  // Startet das Spiel 3 Sekunden nach dem man den letzten LP verloren hat NEU!
 		// }
+		UpdateView ();
 		player.enabled = false;
 		if (health <= 0) {
-			Invoke("RestartLevel",2);
+			Invoke("RestartLevel",1);
 		}
 	}
 	
@@ -100,8 +94,14 @@ public class HealthController : MonoBehaviour {
 	void Damaging(){
 		//animation: anim.SetTrigger("Damage");
 
+		UpdateView ();
+		}
 
-	}
+
+		void UpdateView() {
+			
+		healthGUI.fillAmount = 1 - (health / startHealth);
+		}
 	/*
 	void OnDestroy() {
 		PlayerPrefs.SetFloat ("Health", health);			//PlayerPrefs speichert Werte zwischen Game Sessions, also auch wenn man das Spiel schliesst und dann neu ladet
