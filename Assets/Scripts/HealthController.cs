@@ -54,7 +54,7 @@ public class HealthController : MonoBehaviour {
 				Damaging ();
 			}
 		}
-		
+		Debug.Log ("" + health + "");
 		isDamageable = false;
 		Invoke ("ResetIsDamageable", 5);
 		//}
@@ -74,7 +74,7 @@ public class HealthController : MonoBehaviour {
 		// }
 		player.enabled = false;
 		if (health <= 0) {
-			Invoke("RestartLevel",1);
+			Invoke("RestartLevel",2);
 		}
 	}
 	
