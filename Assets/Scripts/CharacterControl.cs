@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 
@@ -28,8 +28,8 @@ public class CharacterControl : MonoBehaviour {
 	public bool isLookingRight = true;
 	public bool isGroundedDebug = true;
 	
-	private float angle;
-	private Vector2 moveDirection2D;
+	//private float angle;
+	//private Vector2 moveDirection2D;
 	
 	public MaskLight maskLight;
 	
@@ -67,9 +67,9 @@ public class CharacterControl : MonoBehaviour {
 	
 	void Move()
 	{	
-		ControllerColliderHit hitGround;
+
 		
-		Vector3 norm = new Vector3 (hitGround.normal.x, hitGround.normal.y, 0);
+
 		float velocity = Input.GetAxis ("Horizontal");
 		
 		//		ControllerColliderHit schraeg_hit = new ControllerColliderHit();
@@ -109,10 +109,10 @@ public class CharacterControl : MonoBehaviour {
 			}
 		}
 		
-		moveDirection2D.x = moveDirection.x;
-		moveDirection2D.y = moveDirection.y;
-		angle = Vector2.Dot(norm, moveDirection2D) / Vector2.Dot(norm, moveDirection2D);
-		Debug.Log("" + angle + "");
+		//moveDirection2D.x = moveDirection.x;
+		//moveDirection2D.y = moveDirection.y;
+		//angle = Vector2.Dot(norm, moveDirection2D) / Vector2.Dot(norm, moveDirection2D);
+		//Debug.Log("" + angle + "");
 		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
 		
 		

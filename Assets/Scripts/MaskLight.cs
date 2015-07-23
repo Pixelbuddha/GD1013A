@@ -24,16 +24,17 @@ public class MaskLight : MonoBehaviour {
 
 	public void LightControl() {
 
-		do {
+		if(Input.GetKeyDown(KeyCode.R))
 			myLight.intensity ++;
-		} while(Input.GetKeyDown(KeyCode.R));
 
 
 
-		if (Input.GetKeyDown(KeyCode.F)) {
+		if (Input.GetKeyDown(KeyCode.F)) 
 			myLight.intensity --;
-		}
+
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () {
