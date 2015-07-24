@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour {
-	
+
+
 	public int startHealth = 10000;
 	public float currenthealth;
 	public int healthReg;
@@ -19,7 +20,8 @@ public class HealthController : MonoBehaviour {
 	// GUI
 
 	public Image healthGUI;
-	
+	public Canvas canvasReference;
+
 	void Start () {
 		//anim = GetComponent<Animator>();
 		player = GetComponent<CharacterControl> ();
@@ -41,18 +43,19 @@ public class HealthController : MonoBehaviour {
 
 			if (health <= 0 )
 				Die ();
-
-
-		Debug.Log ("!!HealthRegeneration!!");
 		UpdateView ();
 	}
 
 	public void FU() {
-		InvokeRepeating("HealthRegeneration", 1, 0.2f);
+		InvokeRepeating("HealthRegeneration", 1, 0.01f);
 	}
 
 
 	void ApplyDamage(int damage) {
+		if (damage >= startHealth) {
+			Die ();
+		}
+
 		if (isDamageable) {
 			health -= damage;
 
@@ -87,6 +90,8 @@ public class HealthController : MonoBehaviour {
 		//if (lifepoints <=0){
 		//Invoke("StartGame",3);  // Startet das Spiel 3 Sekunden nach dem man den letzten LP verloren hat NEU!
 		// }
+		//healthGUI.gameObject.SetActive(false);
+		canvasReference.gameObject.SetActive (false);
 		UpdateView ();
 		player.enabled = false;
 		if (health <= 0) {
@@ -102,6 +107,8 @@ public class HealthController : MonoBehaviour {
 	}
 	
 	void RestartLevel(){
+		//healthGUI.gameObject.SetActive(true);
+		Invoke("canvasReference.gameObject.SetActive (true)", 1);
 		health = startHealth;
 		//anim.SetBool("Dying", false );
 		//Level neu generieren und Spieler zurücksetzen

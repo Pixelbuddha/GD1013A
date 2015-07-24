@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CollisionDamage : MonoBehaviour {
 
+
 	public float damage = 1;
 	public float dmgTick = 1;
 
