@@ -56,8 +56,12 @@ public class CharacterControl : MonoBehaviour {
 	void Start () 
 	{	
 		cc = GetComponent<CharacterController>();
-		hc = gameObject.AddComponent<HealthController> ();
-		maskLight = gameObject.AddComponent<MaskLight> ();
+		if(cc==null) {Debug.LogError("Missing CharacterController!!!!");enabled=false;return;}
+		hc = GetComponent<HealthController> ();
+		if(hc==null) {Debug.LogError("Missing HealthController!!!!");enabled=false;return;}
+		maskLight = GetComponentInChildren<MaskLight> ();
+		if(maskLight==null) {Debug.LogError("Missing MaskLight!!!!");enabled=false;return;}
+
 
 		masksFound = new bool[] { true, true, true, true}; 	// initiieren des Masken Arrays
 		maskLight.myCharacter = this;
