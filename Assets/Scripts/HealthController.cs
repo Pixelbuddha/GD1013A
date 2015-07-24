@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class HealthController : MonoBehaviour {
 	
 	public int startHealth = 10000;
+	public float currenthealth;
 	public int healthReg;
 	//public int statLifePoints = 3;
 	private float health;
@@ -32,12 +33,15 @@ public class HealthController : MonoBehaviour {
 	}
 
 	public void HealthRegeneration () {
-		if (health > 0) {
-			if (health < startHealth) 
+			if (health <= startHealth) {
 				health += healthReg;
+			} else {
+				health = startHealth;
+			}
+
 			if (health <= 0 )
 				Die ();
-		}
+
 
 		Debug.Log ("!!HealthRegeneration!!");
 		UpdateView ();
@@ -120,6 +124,7 @@ public class HealthController : MonoBehaviour {
 		void UpdateView() {
 			
 		healthGUI.fillAmount = 1 - (health / startHealth);
+		currenthealth = health;
 		}
 	/*
 	void OnDestroy() {
