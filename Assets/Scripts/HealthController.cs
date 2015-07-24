@@ -4,12 +4,13 @@ using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour {
 	
-	public int startHealth = 100;
+	public int startHealth = 10000;
 	public int healthReg;
 	//public int statLifePoints = 3;
 	private float health;
 	private bool isDead = false;
 	private bool isDamageable = true;
+	public float healthRegSpeed;
 	//private int lifePoints = 3;
 	
 	public CharacterControl player;
@@ -31,9 +32,19 @@ public class HealthController : MonoBehaviour {
 	}
 
 	public void HealthRegeneration () {
-		if (health < startHealth)
-		health += healthReg;
+		if (health > 0) {
+			if (health < startHealth) 
+				health += healthReg;
+			if (health <= 0 )
+				Die ();
+		}
+
 		Debug.Log ("!!HealthRegeneration!!");
+		UpdateView ();
+	}
+
+	public void FU() {
+		InvokeRepeating("HealthRegeneration", 1, 0.2f);
 	}
 
 
@@ -108,7 +119,7 @@ public class HealthController : MonoBehaviour {
 
 		void UpdateView() {
 			
-		//healthGUI.fillAmount = 1 - (health / startHealth);
+		healthGUI.fillAmount = 1 - (health / startHealth);
 		}
 	/*
 	void OnDestroy() {

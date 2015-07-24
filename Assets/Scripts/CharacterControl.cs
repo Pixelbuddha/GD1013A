@@ -65,6 +65,7 @@ public class CharacterControl : MonoBehaviour {
 
 		masksFound = new bool[] { true, true, true, true}; 	// initiieren des Masken Arrays
 		maskLight.myCharacter = this;
+		hc.FU();
 	}
 	
 	
@@ -217,14 +218,18 @@ public class CharacterControl : MonoBehaviour {
 		if (activeMask == (int)MaskType.white) {				// Weisse Maske (Im Array Platz 0)
 			//healthreg = +Y;
 			maskLight.TurnLightOff();
-			InvokeRepeating("hc.HealthRegeneration ()", 1, 1f);				//funktioniert nicht, weil geht so nicht
-
+			hc.healthRegSpeed = 0.01f;
+			hc.healthReg = 5;
+							
 		}
+
 		
 		if (activeMask == (int)MaskType.orange) {			// Orangene Maske (Im Array Platz 1)
 			jumpForce = 13;
 			maxSpeed = 10;
 			maskLight.TurnLightOff();
+			hc.healthRegSpeed = 0.01f;
+			hc.healthReg = -1;
 			
 		}
 		
@@ -235,12 +240,16 @@ public class CharacterControl : MonoBehaviour {
 			jumpForce = 20;
 			maxSpeed = 5;
 			maskLight.TurnLightOn();
+			hc.healthRegSpeed = 0.01f;
+			hc.healthReg = -2;
 		}
 		
 		if (activeMask == (int)MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
 			jumpForce = 5;
 			maxSpeed = 50;
 			maskLight.TurnLightOff();
+			hc.healthRegSpeed = 0.01f;
+			hc.healthReg = -4;
 		}
 		// had to cast enum to (int) bc Unity couldnt match the int activeMask to the enum MaskType on its own //
 	}
