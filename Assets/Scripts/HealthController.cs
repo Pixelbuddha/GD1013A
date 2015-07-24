@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class HealthController : MonoBehaviour {
 	
 	public int startHealth = 100;
+	public int healthReg;
 	//public int statLifePoints = 3;
 	private float health;
 	private bool isDead = false;
@@ -27,6 +28,11 @@ public class HealthController : MonoBehaviour {
 
 			UpdateView();
 		}
+	}
+
+	void HealthRegeneration () {
+		if (health < startHealth)
+		health += healthReg;
 	}
 
 
@@ -76,7 +82,7 @@ public class HealthController : MonoBehaviour {
 	
 	void StartGame()
 	{
-		Application.LoadLevel (0);
+		Application.LoadLevel ("Bloackaufbau Level");
 	}
 	
 	void RestartLevel(){
@@ -88,6 +94,7 @@ public class HealthController : MonoBehaviour {
 		if (!player.isLookingRight) {
 			player.Flip ();
 		}
+		StartGame ();
 		
 	}
 	

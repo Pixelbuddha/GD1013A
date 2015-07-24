@@ -35,6 +35,9 @@ public class CharacterControl : MonoBehaviour {
 	
 	
 	CharacterController cc;
+
+
+	public HealthController hc;
 	
 	//
 	////////////////////////////////////////////////////////////////////////////
@@ -208,6 +211,7 @@ public class CharacterControl : MonoBehaviour {
 		if (activeMask == (int)MaskType.white) {				// Weisse Maske (Im Array Platz 0)
 			//healthreg = +Y;
 			maskLight.TurnLightOff();
+			//hc.HealthRegeneration ();			funktioniert nicht, weil geht so nicht
 		}
 		
 		if (activeMask == (int)MaskType.orange) {			// Orangene Maske (Im Array Platz 1)
