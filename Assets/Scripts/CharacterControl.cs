@@ -56,9 +56,11 @@ public class CharacterControl : MonoBehaviour {
 	void Start () 
 	{	
 		cc = GetComponent<CharacterController>();
-		maskLight.myCharacter = this;
+		hc = gameObject.AddComponent<HealthController> ();
+		maskLight = gameObject.AddComponent<MaskLight> ();
+
 		masksFound = new bool[] { true, true, true, true}; 	// initiieren des Masken Arrays
-		
+		maskLight.myCharacter = this;
 	}
 	
 	
@@ -211,7 +213,7 @@ public class CharacterControl : MonoBehaviour {
 		if (activeMask == (int)MaskType.white) {				// Weisse Maske (Im Array Platz 0)
 			//healthreg = +Y;
 			maskLight.TurnLightOff();
-			//hc.HealthRegeneration ();			funktioniert nicht, weil geht so nicht
+			hc.HealthRegeneration ();				//funktioniert nicht, weil geht so nicht
 		}
 		
 		if (activeMask == (int)MaskType.orange) {			// Orangene Maske (Im Array Platz 1)
@@ -251,7 +253,7 @@ public class CharacterControl : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Q) ){					// Vorherige Maske
 			PreviousMask();
 		}
-		Debug.Log("" + activeMask);
+		//Debug.Log("" + activeMask);
 		
 	}
 	

@@ -30,9 +30,10 @@ public class HealthController : MonoBehaviour {
 		}
 	}
 
-	void HealthRegeneration () {
+	public void HealthRegeneration () {
 		if (health < startHealth)
 		health += healthReg;
+		Debug.Log ("!!HealthRegeneration!!");
 	}
 
 
@@ -107,7 +108,7 @@ public class HealthController : MonoBehaviour {
 
 		void UpdateView() {
 			
-		healthGUI.fillAmount = 1 - (health / startHealth);
+		//healthGUI.fillAmount = 1 - (health / startHealth);
 		}
 	/*
 	void OnDestroy() {
