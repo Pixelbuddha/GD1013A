@@ -83,7 +83,7 @@ public class HealthController : MonoBehaviour {
 	
 	void StartGame()
 	{
-		Application.LoadLevel ("Bloackaufbau Level");
+		Application.LoadLevel (0);
 	}
 	
 	void RestartLevel(){
