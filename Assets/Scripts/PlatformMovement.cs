@@ -7,7 +7,7 @@ public class PlatformMovement : MonoBehaviour {
 	public float ausschlagY;
 
 	public float frequenz;
-	private Vector3 platformMoveDirection = Vector3.zero;
+	private Vector3 position = Vector3.zero;
 
 	public float startX;
 	public float startY;
@@ -19,9 +19,12 @@ public class PlatformMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		platformMoveDirection.x = startX - frequenz + (frequenz+Mathf.Sin (Time.timeSinceLevelLoad*frequenz) * ausschlagX);
-		platformMoveDirection.y = startY - frequenz + (frequenz+Mathf.Sin (Time.timeSinceLevelLoad*frequenz) * ausschlagY);
-		this.transform.position = platformMoveDirection;
+
+
+		position.x = startX - frequenz + (frequenz+Mathf.Sin (Time.timeSinceLevelLoad*frequenz) * ausschlagX);
+		position.y = startY - frequenz + (frequenz+Mathf.Sin (Time.timeSinceLevelLoad*frequenz) * ausschlagY);
+		this.transform.localPosition = position;
+
 
 	}
 }
