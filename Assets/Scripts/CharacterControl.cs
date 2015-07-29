@@ -27,6 +27,8 @@ public class CharacterControl : MonoBehaviour {
 	
 	public bool isLookingRight = true;
 	public bool isGroundedDebug = true;
+
+	private Animator anim;
 	
 	//private float angle;
 	//private Vector2 moveDirection2D;
@@ -55,6 +57,7 @@ public class CharacterControl : MonoBehaviour {
 	
 	void Start () 
 	{	
+		anim = GetComponent<Animator> ();
 		cc = GetComponent<CharacterController>();
 		if(cc==null) {Debug.LogError("Missing CharacterController!!!!");enabled=false;return;}
 		hc = GetComponent<HealthController> ();
@@ -72,6 +75,7 @@ public class CharacterControl : MonoBehaviour {
 	void Update () {
 		Move ();
 		MaskController ();
+
 		
 	}
 	
@@ -93,11 +97,13 @@ public class CharacterControl : MonoBehaviour {
 		if (!cc.isGrounded) {													// Wenn in Luft
 			moveDirection.y -= gravity * Time.deltaTime;						// mach Gravitiy an (Beschleunigend Linear)
 			isGroundedDebug = false;											// Anzeige um zu schauen ob isGrounded Aktiv ist
+			anim.SetBool("IsGroundedAnim", isGroundedDebug);
 		} else {																// Wenn nicht in Luft
 			if (Mathf.Abs(velocity) < 0.9)										// Für Keyboardsteuerung, Sobald Horizontal Wert unter 0.9 sinkt (kurz nach loslassender Taste), Bremse
 				moveDirection.x *= 0.175f;										// Wert für Bremsstärke
 			
 			isGroundedDebug=true;												//Debug Anzeige wieder
+			anim.SetBool("IsGroundedAnim", isGroundedDebug);
 			moveDirection.y = 0; 												//theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
 			moveDirection.y =  -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
 			if (Input.GetButtonDown ("Jump")) {									// Steuerungseingabe (Keyboard Spacebar, Controller das dementsprechende)
@@ -124,12 +130,13 @@ public class CharacterControl : MonoBehaviour {
 		//angle = Vector2.Dot(norm, moveDirection2D) / Vector2.Dot(norm, moveDirection2D);
 		//Debug.Log("" + angle + "");
 		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
+		anim.SetFloat("Speed", Mathf.Abs (velocity));
 		
 		
 		if ((velocity > 0 && !isLookingRight) || (velocity < 0 && isLookingRight))	// wenn wir uns nach links bewegen und nach rechts schauen oder umgekehrt
 			Flip ();																// dann dreh dich um
 		
-		
+		Debug.Log ("Velocity is:" + velocity + "");
 	}
 	
 	

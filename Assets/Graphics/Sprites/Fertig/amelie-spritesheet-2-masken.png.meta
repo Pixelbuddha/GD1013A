@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: a954da53fd5317540a6677d146dcc757
+timeCreated: 1437747155
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: baer ohr vorne
+    21300002: baer ohr hinten
+    21300004: fuchs ohr vorne
+    21300006: baer kopf
+    21300008: amelie-spritesheet-2-masken_14
+    21300010: fuhs ohr hinten
+    21300012: amelie-spritesheet-2-masken_16
+    21300014: adler kopf
+    21300016: fuchs kopf
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: baer ohr vorne
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 2352
+        width: 380
+        height: 453
+      alignment: 9
+      pivot: {x: .785380542, y: .247003481}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: baer ohr hinten
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 2424
+        width: 327
+        height: 331
+      alignment: 9
+      pivot: {x: .343226999, y: .183910906}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fuchs ohr vorne
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 2014
+        width: 505
+        height: 729
+      alignment: 9
+      pivot: {x: .812351823, y: .169659987}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: baer kopf
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 1247
+        width: 989
+        height: 1031
+      alignment: 9
+      pivot: {x: .521930218, y: .139404655}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: amelie-spritesheet-2-masken_14
+      rect:
+        serializedVersion: 2
+        x: 1554
+        y: 1843
+        width: 4
+        height: 5
+      alignment: 2
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fuhs ohr hinten
+      rect:
+        serializedVersion: 2
+        x: 1879
+        y: 1736
+        width: 362
+        height: 556
+      alignment: 9
+      pivot: {x: .396511704, y: .0673340708}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: amelie-spritesheet-2-masken_16
+      rect:
+        serializedVersion: 2
+        x: 1441
+        y: 1785
+        width: 16
+        height: 21
+      alignment: 2
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: adler kopf
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 41
+        width: 1020
+        height: 1140
+      alignment: 9
+      pivot: {x: .503097773, y: .110310778}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fuchs kopf
+      rect:
+        serializedVersion: 2
+        x: 1323
+        y: 532
+        width: 935
+        height: 1007
+      alignment: 9
+      pivot: {x: .543930948, y: .1308624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
