@@ -15,7 +15,7 @@ public class SimpleGravity : MonoBehaviour {
 	void Update () {
 		moveDirection.y -= gravity * Time.deltaTime;
 		this.transform.position = (this.transform.position + new Vector3 (0, moveDirection.y, 0));
-			Debug.Log ("STONESPEED" + moveDirection.y + "");
+			//Debug.Log ("STONESPEED" + moveDirection.y + "");
 
 	}
 }

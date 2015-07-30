@@ -28,6 +28,8 @@ public class CharacterControl : MonoBehaviour {
 	public bool isLookingRight = true;
 	public bool isGroundedDebug = true;
 
+	public GameObject modelGO;
+
 	private Animator anim;
 	
 	//private float angle;
@@ -57,7 +59,9 @@ public class CharacterControl : MonoBehaviour {
 	
 	void Start () 
 	{	
-		anim = GetComponent<Animator> ();
+		if (modelGO == null)
+			modelGO = transform.FindChild (transform.name + "_model").gameObject;
+		anim = modelGO.GetComponent<Animator> ();
 		cc = GetComponent<CharacterController>();
 		if(cc==null) {Debug.LogError("Missing CharacterController!!!!");enabled=false;return;}
 		hc = GetComponent<HealthController> ();
@@ -108,7 +112,7 @@ public class CharacterControl : MonoBehaviour {
 			moveDirection.y =  -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
 			if (Input.GetButtonDown ("Jump")) {									// Steuerungseingabe (Keyboard Spacebar, Controller das dementsprechende)
 				moveDirection.y = jumpForce ;									// hcchspringen
-				Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
+				//Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
 				
 			}
 			if (activeMask != (int)MaskType.orange) {	
@@ -130,13 +134,14 @@ public class CharacterControl : MonoBehaviour {
 		//angle = Vector2.Dot(norm, moveDirection2D) / Vector2.Dot(norm, moveDirection2D);
 		//Debug.Log("" + angle + "");
 		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
+		Debug.Log(moveDirection * Time.deltaTime);
 		anim.SetFloat("Speed", Mathf.Abs (velocity));
 		
 		
 		if ((velocity > 0 && !isLookingRight) || (velocity < 0 && isLookingRight))	// wenn wir uns nach links bewegen und nach rechts schauen oder umgekehrt
 			Flip ();																// dann dreh dich um
 		
-		Debug.Log ("Velocity is:" + velocity + "");
+		//Debug.Log ("Velocity is:" + velocity + "");
 	}
 	
 	
@@ -160,7 +165,7 @@ public class CharacterControl : MonoBehaviour {
 		if (dot >= 0)																// Abprallen
 			return;																	// zu
 		Vector2 nv = v - (n * (dot * 2f));												// können
-		Debug.Log ("" + n + v + nv + " " + dot + " " + hit.gameObject.name + " " + hit.point);			// :)
+		//Debug.Log ("" + n + v + nv + " " + dot + " " + hit.gameObject.name + " " + hit.point);			// :)
 		
 		moveDirection = new Vector3 (nv.x, nv.y, 0) * 0.75f;						// ausführen des Abprallens
 		
@@ -206,7 +211,7 @@ public class CharacterControl : MonoBehaviour {
 		do {
 			
 			if (activeMask < 0) {
-				Debug.Log (masksFound.Length);
+				//Debug.Log (masksFound.Length);
 				activeMask = masksFound.Length -1;		// Wenn am Anfang angekommen mache am Ende weiter
 			}
 		} while (masksFound[activeMask] = false);

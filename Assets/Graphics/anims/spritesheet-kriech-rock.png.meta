@@ -1,12 +1,10 @@
 fileFormatVersion: 2
-guid: eed54a7cd17b2e546a4a926cf7bef648
-timeCreated: 1437746049
+guid: 90ce4798230c31e4c8eb90c7f413fef1
+timeCreated: 1438087161
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: rock-hochgerafft
-    21300002: amelie-rennen-geknickt
-    21300004: rock-rennen-fliegend
+    21300000: rock-kriechen
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +28,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 1024
+  maxTextureSize: 2048
   textureSettings:
     filterMode: -1
     aniso: 16
@@ -52,35 +50,15 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: rock-hochgerafft
+    - name: rock-kriechen
       rect:
         serializedVersion: 2
-        x: 109
-        y: 283
-        width: 453
-        height: 521
+        x: 74
+        y: 114
+        width: 552
+        height: 693
       alignment: 9
-      pivot: {x: .610828578, y: .863225937}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: amelie-rennen-geknickt
-      rect:
-        serializedVersion: 2
-        x: 766
-        y: 118
-        width: 618
-        height: 674
-      alignment: 9
-      pivot: {x: .513102829, y: .908691227}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: rock-rennen-fliegend
-      rect:
-        serializedVersion: 2
-        x: 1479
-        y: 131
-        width: 894
-        height: 687
-      alignment: 9
-      pivot: {x: .659416437, y: .89863205}
+      pivot: {x: .50357753, y: .928872645}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

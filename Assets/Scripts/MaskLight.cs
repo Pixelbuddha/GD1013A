@@ -19,7 +19,7 @@ public class MaskLight : MonoBehaviour {
 
 	void Start () {
 		myLight = GetComponent<Light> ();
-		Debug.Log (myLight);
+		//Debug.Log (myLight);
 	}
 
 	public void LightControl() {

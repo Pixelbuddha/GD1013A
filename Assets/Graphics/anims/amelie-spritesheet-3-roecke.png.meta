@@ -1,11 +1,12 @@
 fileFormatVersion: 2
-guid: 4c4d2a78b5bb9e840a7fd94709a78a4d
-timeCreated: 1437983134
+guid: fc77e189ff91eb44e93cbfee5e6e1314
+timeCreated: 1437746049
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hand schieben links
-    21300002: hand schieben rechts
+    21300000: rock-hochgerafft
+    21300002: amelie-rennen-geknickt
+    21300004: rock-rennen-fliegend
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -51,25 +52,35 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: hand schieben links
+    - name: rock-hochgerafft
       rect:
         serializedVersion: 2
-        x: 142
-        y: 60
-        width: 242
-        height: 100
+        x: 109
+        y: 283
+        width: 453
+        height: 521
       alignment: 9
-      pivot: {x: .135645777, y: .769575655}
+      pivot: {x: .610828578, y: .863225937}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hand schieben rechts
+    - name: amelie-rennen-geknickt
       rect:
         serializedVersion: 2
-        x: 553
-        y: 56
-        width: 249
-        height: 92
+        x: 766
+        y: 118
+        width: 618
+        height: 674
       alignment: 9
-      pivot: {x: .159421623, y: .866271496}
+      pivot: {x: .513102829, y: .908691227}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: rock-rennen-fliegend
+      rect:
+        serializedVersion: 2
+        x: 1479
+        y: 131
+        width: 894
+        height: 687
+      alignment: 9
+      pivot: {x: .659416437, y: .89863205}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

@@ -21,7 +21,7 @@ public class CollisionDamage : MonoBehaviour {
 				return;
 			}
 			other.SendMessage ("ApplyDamage", damage);
-			Debug.Log("IdealDamage: " + damage);
+			//Debug.Log("IdealDamage: " + damage);
 			dmgTick = 0;
 		}
 	}
