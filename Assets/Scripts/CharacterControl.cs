@@ -95,23 +95,23 @@ public class CharacterControl : MonoBehaviour {
 		moveDirection.x += velocity;											// Links Rechts Input
 		//moveDirection.y += velocity ;
 		moveDirection.x = Mathf.Clamp (moveDirection.x, -maxSpeed, maxSpeed);	// Begrenzung min und max Speed (Clamp)
-		cc.radius = 0.4f+Mathf.Sin (Time.time*10f) * 0.051f;					// jitter aka Herumskalieren um nicht in Ecken hängenzubleiben (Der Entzitterer)
-		//moveDirection.x *= 0.98f;												// Luftreibung
+		cc.radius = 0.4f + Mathf.Sin (Time.time * 10f) * 0.051f;					// jitter aka Herumskalieren um nicht in Ecken hängenzubleiben (Der Entzitterer)
+		moveDirection.x *= 0.98f;												// Luftreibung
 		
 		if (!cc.isGrounded) {													// Wenn in Luft
 			moveDirection.y -= gravity * Time.deltaTime;						// mach Gravitiy an (Beschleunigend Linear)
 			isGroundedDebug = false;											// Anzeige um zu schauen ob isGrounded Aktiv ist
-			anim.SetBool("IsGroundedAnim", isGroundedDebug);
+			anim.SetBool ("IsGroundedAnim", isGroundedDebug);
 		} else {																// Wenn nicht in Luft
-			if (Mathf.Abs(velocity) < 0.9)										// Für Keyboardsteuerung, Sobald Horizontal Wert unter 0.9 sinkt (kurz nach loslassender Taste), Bremse
+			if (Mathf.Abs (velocity) < 0.9)										// Für Keyboardsteuerung, Sobald Horizontal Wert unter 0.9 sinkt (kurz nach loslassender Taste), Bremse
 				moveDirection.x *= 0.175f;										// Wert für Bremsstärke
 			
-			isGroundedDebug=true;												//Debug Anzeige wieder
-			anim.SetBool("IsGroundedAnim", isGroundedDebug);
+			isGroundedDebug = true;												//Debug Anzeige wieder
+			anim.SetBool ("IsGroundedAnim", isGroundedDebug);
 			moveDirection.y = 0; 												//theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
-			moveDirection.y =  -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
+			moveDirection.y = -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
 			if (Input.GetButtonDown ("Jump")) {									// Steuerungseingabe (Keyboard Spacebar, Controller das dementsprechende)
-				moveDirection.y = jumpForce ;									// hcchspringen
+				moveDirection.y = jumpForce;									// hcchspringen
 				//Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
 				
 			}
@@ -134,9 +134,18 @@ public class CharacterControl : MonoBehaviour {
 		//angle = Vector2.Dot(norm, moveDirection2D) / Vector2.Dot(norm, moveDirection2D);
 		//Debug.Log("" + angle + "");
 		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
-		Debug.Log(moveDirection * Time.deltaTime);
-		anim.SetFloat("Speed", Mathf.Abs (velocity));
-		
+		Debug.Log (moveDirection * Time.deltaTime);
+		anim.SetFloat ("Speed", Mathf.Abs (velocity));
+		if (moveDirection.y == 0) {
+			anim.SetFloat ("VerticalSpeed", 0);
+		} else {
+			if (moveDirection.y > 0) {
+				anim.SetFloat ("VerticalSpeed", 1);
+			} else {
+				anim.SetFloat ("VerticalSpeed", -1);
+			}
+		}
+	
 		
 		if ((velocity > 0 && !isLookingRight) || (velocity < 0 && isLookingRight))	// wenn wir uns nach links bewegen und nach rechts schauen oder umgekehrt
 			Flip ();																// dann dreh dich um
