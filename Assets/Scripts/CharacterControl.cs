@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
 ///	SHIT TO DO
@@ -31,6 +32,12 @@ public class CharacterControl : MonoBehaviour {
 	public GameObject modelGO;
 
 	private Animator anim;
+
+
+	public Image whiteMaskGUI;
+	public Image orangeMaskGUI;
+	public Image redMaskGUI;
+	public Image yellowMaskGUI;
 	
 	//private float angle;
 	//private Vector2 moveDirection2D;
@@ -59,6 +66,17 @@ public class CharacterControl : MonoBehaviour {
 	
 	void Start () 
 	{	
+		//////////WEISSE MASKE START/////////////////
+
+		whiteMaskGUI.gameObject.SetActive(true);
+		orangeMaskGUI.gameObject.SetActive(false);
+		redMaskGUI.gameObject.SetActive(false);
+		yellowMaskGUI.gameObject.SetActive(false);
+
+		/////////////////////////////////////////////
+
+
+
 		if (modelGO == null)
 			modelGO = transform.FindChild (transform.name + "_model").gameObject;
 		anim = modelGO.GetComponent<Animator> ();
@@ -72,20 +90,25 @@ public class CharacterControl : MonoBehaviour {
 
 		masksFound = new bool[] { true, true, true, true}; 	// initiieren des Masken Arrays
 		maskLight.myCharacter = this;
-		hc.FU();
+		hc.RepeatHealthReg();
 	}
 	
 	
 	void Update () {
 		Move ();
 		MaskController ();
+		//anim.SetBool ("uDeadBro", hc.debugDead);
+
+		//Debug.Log ("" + hc.debugDead + "");
 
 		
 	}
 	
 	void Move()
 	{	
-
+		if (Input.GetKeyDown(KeyCode.H) ){					// Nächste Maske
+			anim.SetBool ("uDeadBro", true);
+		}
 		
 
 		float velocity = Input.GetAxis ("Horizontal");
@@ -118,10 +141,12 @@ public class CharacterControl : MonoBehaviour {
 			if (activeMask != (int)MaskType.orange) {	
 				if (Input.GetButtonDown ("Fire3") && cc.height == maxHitHeight) {			// Crouch Funktion
 					cc.height = minHitHeight;												// Mach Hitbox Kleiner
+					anim.SetBool("isCrouched", true);
 				} else {
 					
 					if (Input.GetButtonDown ("Fire3") && cc.height == minHitHeight) {
 						cc.height = maxHitHeight;											// Mach Hitbox Größer
+						anim.SetBool("isCrouched", false);
 						
 					}
 				}
@@ -134,7 +159,7 @@ public class CharacterControl : MonoBehaviour {
 		//angle = Vector2.Dot(norm, moveDirection2D) / Vector2.Dot(norm, moveDirection2D);
 		//Debug.Log("" + angle + "");
 		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
-		Debug.Log (moveDirection * Time.deltaTime);
+		//Debug.Log (moveDirection * Time.deltaTime);
 		anim.SetFloat ("Speed", Mathf.Abs (velocity));
 		if (moveDirection.y == 0) {
 			anim.SetFloat ("VerticalSpeed", 0);
@@ -241,6 +266,12 @@ public class CharacterControl : MonoBehaviour {
 			maskLight.TurnLightOff();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = 5;
+
+			whiteMaskGUI.gameObject.SetActive(true);
+			orangeMaskGUI.gameObject.SetActive(false);
+			redMaskGUI.gameObject.SetActive(false);
+			yellowMaskGUI.gameObject.SetActive(false);
+
 							
 		}
 
@@ -251,6 +282,11 @@ public class CharacterControl : MonoBehaviour {
 			maskLight.TurnLightOff();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = -1;
+
+			whiteMaskGUI.gameObject.SetActive(false);
+			orangeMaskGUI.gameObject.SetActive(true);
+			redMaskGUI.gameObject.SetActive(false);
+			yellowMaskGUI.gameObject.SetActive(false);
 			
 		}
 		
@@ -263,6 +299,11 @@ public class CharacterControl : MonoBehaviour {
 			maskLight.TurnLightOn();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = -2;
+
+			whiteMaskGUI.gameObject.SetActive(false);
+			orangeMaskGUI.gameObject.SetActive(false);
+			redMaskGUI.gameObject.SetActive(true);
+			yellowMaskGUI.gameObject.SetActive(false);
 		}
 		
 		if (activeMask == (int)MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
@@ -271,6 +312,11 @@ public class CharacterControl : MonoBehaviour {
 			maskLight.TurnLightOff();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = -4;
+
+			whiteMaskGUI.gameObject.SetActive(false);
+			orangeMaskGUI.gameObject.SetActive(false);
+			redMaskGUI.gameObject.SetActive(false);
+			yellowMaskGUI.gameObject.SetActive(true);
 		}
 		// had to cast enum to (int) bc Unity couldnt match the int activeMask to the enum MaskType on its own //
 	}

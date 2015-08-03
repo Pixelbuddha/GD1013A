@@ -11,6 +11,7 @@ public class HealthController : MonoBehaviour {
 	//public int statLifePoints = 3;
 	private float health;
 	private bool isDead = false;
+	public bool debugDead = false;
 	private bool isDamageable = true;
 	public float healthRegSpeed;
 	//private int lifePoints = 3;
@@ -20,6 +21,8 @@ public class HealthController : MonoBehaviour {
 	// GUI
 
 	public Image healthGUI;
+
+
 	public Canvas canvasReference;
 
 	void Start () {
@@ -46,7 +49,7 @@ public class HealthController : MonoBehaviour {
 		UpdateView ();
 	}
 
-	public void FU() {
+	public void RepeatHealthReg() {
 		InvokeRepeating("HealthRegeneration", 1, 0.01f);
 	}
 
@@ -67,6 +70,7 @@ public class HealthController : MonoBehaviour {
 			if (health == 0) {
 				isDead = true;
 				Die ();
+
 			} else {
 				if (isDamageable) {
 					Damaging ();
@@ -90,7 +94,7 @@ public class HealthController : MonoBehaviour {
 		//if (lifepoints <=0){
 		//Invoke("StartGame",3);  // Startet das Spiel 3 Sekunden nach dem man den letzten LP verloren hat NEU!
 		// }
-		//healthGUI.gameObject.SetActive(false);
+
 		canvasReference.gameObject.SetActive (false);
 		UpdateView ();
 		player.enabled = false;
@@ -132,6 +136,9 @@ public class HealthController : MonoBehaviour {
 			
 		healthGUI.fillAmount = 1 - (health / startHealth);
 		currenthealth = health;
+
+
+
 		}
 	/*
 	void OnDestroy() {
