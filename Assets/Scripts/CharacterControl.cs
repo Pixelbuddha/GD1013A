@@ -28,12 +28,12 @@ public class CharacterControl : MonoBehaviour {
 	
 	public bool isLookingRight = true;
 	public bool isGroundedDebug = true;
-
+	
 	public GameObject modelGO;
-
+	
 	private Animator anim;
-
-
+	
+	
 	public Image whiteMaskGUI;
 	public Image orangeMaskGUI;
 	public Image redMaskGUI;
@@ -45,9 +45,10 @@ public class CharacterControl : MonoBehaviour {
 	public MaskLight maskLight;
 	
 	
+	
 	CharacterController cc;
-
-
+	
+	
 	public HealthController hc;
 	
 	//
@@ -67,16 +68,16 @@ public class CharacterControl : MonoBehaviour {
 	void Start () 
 	{	
 		//////////WEISSE MASKE START/////////////////
-
+		
 		whiteMaskGUI.gameObject.SetActive(true);
 		orangeMaskGUI.gameObject.SetActive(false);
 		redMaskGUI.gameObject.SetActive(false);
 		yellowMaskGUI.gameObject.SetActive(false);
-
+		
 		/////////////////////////////////////////////
-
-
-
+		
+		
+		
 		if (modelGO == null)
 			modelGO = transform.FindChild (transform.name + "_model").gameObject;
 		anim = modelGO.GetComponent<Animator> ();
@@ -86,10 +87,13 @@ public class CharacterControl : MonoBehaviour {
 		if(hc==null) {Debug.LogError("Missing HealthController!!!!");enabled=false;return;}
 		maskLight = GetComponentInChildren<MaskLight> ();
 		if(maskLight==null) {Debug.LogError("Missing MaskLight!!!!");enabled=false;return;}
-
-
+		
+		
 		masksFound = new bool[] { true, true, true, true}; 	// initiieren des Masken Arrays
 		maskLight.myCharacter = this;
+		
+		
+		
 		hc.RepeatHealthReg();
 	}
 	
@@ -98,9 +102,9 @@ public class CharacterControl : MonoBehaviour {
 		Move ();
 		MaskController ();
 		//anim.SetBool ("uDeadBro", hc.debugDead);
-
+		
 		//Debug.Log ("" + hc.debugDead + "");
-
+		
 		
 	}
 	
@@ -110,7 +114,7 @@ public class CharacterControl : MonoBehaviour {
 			anim.SetBool ("uDeadBro", true);
 		}
 		
-
+		
 		float velocity = Input.GetAxis ("Horizontal");
 		
 		//		ControllerColliderHit schraeg_hit = new ControllerColliderHit();
@@ -170,7 +174,7 @@ public class CharacterControl : MonoBehaviour {
 				anim.SetFloat ("VerticalSpeed", -1);
 			}
 		}
-	
+		
 		
 		if ((velocity > 0 && !isLookingRight) || (velocity < 0 && isLookingRight))	// wenn wir uns nach links bewegen und nach rechts schauen oder umgekehrt
 			Flip ();																// dann dreh dich um
@@ -266,15 +270,15 @@ public class CharacterControl : MonoBehaviour {
 			maskLight.TurnLightOff();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = 5;
-
+			
 			whiteMaskGUI.gameObject.SetActive(true);
 			orangeMaskGUI.gameObject.SetActive(false);
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(false);
-
-							
+			
+			
 		}
-
+		
 		
 		if (activeMask == (int)MaskType.orange) {			// Orangene Maske (Im Array Platz 1)
 			jumpForce = 13;
@@ -282,7 +286,7 @@ public class CharacterControl : MonoBehaviour {
 			maskLight.TurnLightOff();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = -1;
-
+			
 			whiteMaskGUI.gameObject.SetActive(false);
 			orangeMaskGUI.gameObject.SetActive(true);
 			redMaskGUI.gameObject.SetActive(false);
@@ -294,12 +298,10 @@ public class CharacterControl : MonoBehaviour {
 			return;
 		
 		if (activeMask == (int)MaskType.red) {				// Rote Maske (Im Array Platz 2)
-			jumpForce = 20;
-			maxSpeed = 5;
 			maskLight.TurnLightOn();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = -2;
-
+			
 			whiteMaskGUI.gameObject.SetActive(false);
 			orangeMaskGUI.gameObject.SetActive(false);
 			redMaskGUI.gameObject.SetActive(true);
@@ -308,18 +310,22 @@ public class CharacterControl : MonoBehaviour {
 		
 		if (activeMask == (int)MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
 			jumpForce = 5;
-			maxSpeed = 50;
+			maxSpeed = 5;
 			maskLight.TurnLightOff();
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = -4;
-
+			
 			whiteMaskGUI.gameObject.SetActive(false);
 			orangeMaskGUI.gameObject.SetActive(false);
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(true);
+			
+			
+			
 		}
 		// had to cast enum to (int) bc Unity couldnt match the int activeMask to the enum MaskType on its own //
 	}
+	
 	
 	
 	void MaskController(){								// Die Funktion die Masken zu wechseln
