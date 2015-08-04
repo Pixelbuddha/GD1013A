@@ -20,9 +20,9 @@ public class CrushingWalls : MonoBehaviour {
 	}
 	
 	void Crush () {
-		/*if (wall2 = null) {
-			wall1.transform.position = (wall1.transform.position + new Vector3 (crushDirection.x, crushDirection.y, 0));
-		} else { */
+		if (wall2 == null) {
+			wall1.transform.position = (wall1.transform.position + new Vector3 (crushSpeed.x, crushSpeed.y, 0));
+		} else { 
 			if (counter <= maxDuration) {
 			
 				wall1.transform.position = (wall1.transform.position + new Vector3 (crushSpeed.x, crushSpeed.y, 0)); 
@@ -33,7 +33,7 @@ public class CrushingWalls : MonoBehaviour {
 			}
 			counter ++;
 		}
-	//}
+	}
 	
 	// Update is called once per frame
 	void Update () {

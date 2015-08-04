@@ -210,7 +210,6 @@ public class CharacterControl : MonoBehaviour {
 		//}
 	}
 	
-	
 	public void Flip()																// die "ich Dreh mich um Funktion"
 	{
 		isLookingRight = !isLookingRight;											//Eigentlich selbsterklärend
@@ -312,8 +311,8 @@ public class CharacterControl : MonoBehaviour {
 			jumpForce = 5;
 			maxSpeed = 5;
 			maskLight.TurnLightOff();
-			hc.healthRegSpeed = 0.01f;
-			hc.healthReg = -4;
+			hc.healthRegSpeed = 0.1f;
+			hc.healthReg = -0;
 			
 			whiteMaskGUI.gameObject.SetActive(false);
 			orangeMaskGUI.gameObject.SetActive(false);
