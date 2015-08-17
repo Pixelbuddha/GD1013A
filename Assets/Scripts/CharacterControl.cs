@@ -20,7 +20,9 @@ public class CharacterControl : MonoBehaviour {
 	public const int layerNumber = 9;
 	public float maxHitHeight = 2.98f;
 	public float minHitHeight = 1.5f;
-	
+	public float minCenterHeight = - 0.65f;
+	public float maxCenterHeight = - 1.4f;
+
 	public float maxSpeed = 20;
 	public float jumpForce = 10;
 	public float gravity = 9.81f;
@@ -142,17 +144,19 @@ public class CharacterControl : MonoBehaviour {
 				//Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
 				
 			}
-			if (activeMask != (int)MaskType.orange) {	
+			if (activeMask == (int)MaskType.white) {	
 				if (Input.GetButtonDown ("Fire3") && cc.height == maxHitHeight) {			// Crouch Funktion
 					cc.height = minHitHeight;												// Mach Hitbox Kleiner
+					cc.center.y = cc.center.y * 2;
 					anim.SetBool("isCrouched", true);
 				} else {
 					
 					if (Input.GetKey (KeyCode.LeftShift) && cc.height == minHitHeight) {
 						cc.height = maxHitHeight;											// Mach Hitbox Größer
+						cc.center.y = cc.center.y / 2;
 						anim.SetBool("isCrouched", false);
 
-						
+					
 					}
 				}
 				
