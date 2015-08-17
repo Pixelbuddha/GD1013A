@@ -4,24 +4,25 @@ using UnityEngine.UI;
 
 
 ///	SHIT TO DO
-/// hitbox??
-/// GUI Masken
-/// Crushing Walls Fixen
-/// Animationen Fixen
-/// 
-/// Checkpoint sachen im Checkpoint Speichern, keine Playerprefs
-/// Leben, Position etc im Checkpoint speichern, und bei tot von dort aufrufen
-/// 
-/// Steuerung muss auch mit Controller gehen
-/// NICHT IN TUNNEL AUFRICHTEN SONST DURCH BODEN FALLEN BUG
+
+/// Checkpoint
+ 	/// Checkpoint sachen im Checkpoint Speichern, keine Playerprefs
+	/// Leben, Position etc im Checkpoint speichern, und bei tot von dort aufrufen
+
+/// Gegner
+ 	/// Masken auf Amelie
+		/// Kugelrollen
+		/// Death FIx
+		/// Crushing Walls Foix
+
+		/// Rampen Runterlaufen
 
 public class CharacterControl : MonoBehaviour {
 	
 	public const int layerNumber = 9;
 	public float maxHitHeight = 2.98f;
 	public float minHitHeight = 1.5f;
-	public float minCenterHeight = - 0.65f;
-	public float maxCenterHeight = - 1.4f;
+	public bool fuckYourCrouch = false;
 
 	public float maxSpeed = 20;
 	public float jumpForce = 10;
@@ -40,6 +41,7 @@ public class CharacterControl : MonoBehaviour {
 	public Image orangeMaskGUI;
 	public Image redMaskGUI;
 	public Image yellowMaskGUI;
+	public bool iAmRed = false;
 	
 	//private float angle;
 	//private Vector2 moveDirection2D;
@@ -69,6 +71,11 @@ public class CharacterControl : MonoBehaviour {
 	
 	void Start () 
 	{	
+
+
+
+
+
 		//////////WEISSE MASKE START/////////////////
 		
 		whiteMaskGUI.gameObject.SetActive(true);
@@ -132,6 +139,7 @@ public class CharacterControl : MonoBehaviour {
 			isGroundedDebug = false;											// Anzeige um zu schauen ob isGrounded Aktiv ist
 			anim.SetBool ("IsGroundedAnim", isGroundedDebug);
 		} else {																// Wenn nicht in Luft
+
 			if (Mathf.Abs (velocity) < 0.9)										// Für Keyboardsteuerung, Sobald Horizontal Wert unter 0.9 sinkt (kurz nach loslassender Taste), Bremse
 				moveDirection.x *= 0.175f;										// Wert für Bremsstärke
 			
@@ -139,27 +147,33 @@ public class CharacterControl : MonoBehaviour {
 			anim.SetBool ("IsGroundedAnim", isGroundedDebug);
 			moveDirection.y = 0; 												//theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
 			moveDirection.y = -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
+			if (fuckYourCrouch == false) {
 			if (Input.GetButtonDown ("Jump")) {									// Steuerungseingabe (Keyboard Spacebar, Controller das dementsprechende)
 				moveDirection.y = jumpForce;									// hcchspringen
 				//Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
 				
+				}
 			}
 			if (activeMask == (int)MaskType.white) {	
 				if (Input.GetButtonDown ("Fire3") && cc.height == maxHitHeight) {			// Crouch Funktion
 					cc.height = minHitHeight;												// Mach Hitbox Kleiner
-					cc.center.y = cc.center.y * 2;
+					transform.GetChild(0).localPosition = new Vector3(0, -0.5f, 0);
 					anim.SetBool("isCrouched", true);
+					fuckYourCrouch = true;
 				} else {
-					
-					if (Input.GetKey (KeyCode.LeftShift) && cc.height == minHitHeight) {
-						cc.height = maxHitHeight;											// Mach Hitbox Größer
-						cc.center.y = cc.center.y / 2;
-						anim.SetBool("isCrouched", false);
+					Debug.DrawRay(transform.position, Vector3.up * 2f);
+					RaycastHit hit;
+					if (!Physics.Raycast(transform.position, Vector3.up, out hit, 2f, 1<<layerNumber)) {	// | 1<<neAndere
+						if (Input.GetKey (KeyCode.LeftShift) && cc.height == minHitHeight) {
+							cc.height = maxHitHeight;											// Mach Hitbox Größer
+							transform.GetChild(0).localPosition = new Vector3(0, -1.11f, 0);
+							anim.SetBool("isCrouched", false);
+							fuckYourCrouch = false;
+							Debug.Log ("" + hit.collider + "");
 
-					
+						}
 					}
-				}
-				
+				}				
 			}
 		}
 		
@@ -280,6 +294,7 @@ public class CharacterControl : MonoBehaviour {
 			orangeMaskGUI.gameObject.SetActive(false);
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(false);
+			iAmRed = false;
 			
 			
 		}
@@ -296,6 +311,7 @@ public class CharacterControl : MonoBehaviour {
 			orangeMaskGUI.gameObject.SetActive(true);
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(false);
+			iAmRed = false;
 			
 		}
 		
@@ -311,6 +327,7 @@ public class CharacterControl : MonoBehaviour {
 			orangeMaskGUI.gameObject.SetActive(false);
 			redMaskGUI.gameObject.SetActive(true);
 			yellowMaskGUI.gameObject.SetActive(false);
+			iAmRed = true;
 		}
 		
 		if (activeMask == (int)MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
@@ -324,6 +341,7 @@ public class CharacterControl : MonoBehaviour {
 			orangeMaskGUI.gameObject.SetActive(false);
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(true);
+			iAmRed = false;
 			
 			
 			

@@ -40,7 +40,7 @@ public class FlyingWalls : MonoBehaviour {
 				
 				wall1.transform.position = (wall1.transform.position + new Vector3 (crushSpeed.x, crushSpeed.y, 0)); 
 			} else {
-				if (chara.activeMask == 2) {
+				if (chara.iAmRed == true) {
 					Debug.Log ("HALLO JANNIS" + counter + "" + maxDuration + "");
 					if (Input.GetKeyDown(KeyCode.P))
 						wall1.transform.position = (wall1.transform.position + new Vector3 (crushSpeed.x, crushSpeed.y, 0));
