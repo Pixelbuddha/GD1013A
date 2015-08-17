@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 ///	SHIT TO DO
 /// hitbox??
-/// übertragen auf GUI - done
 /// GUI Masken
-/// Crushing Walls
-/// Steuerung muss auch mit Controller gehen
+/// Crushing Walls Fixen
+/// Animationen Fixen
 /// 
 /// Checkpoint sachen im Checkpoint Speichern, keine Playerprefs
 /// Leben, Position etc im Checkpoint speichern, und bei tot von dort aufrufen
 /// 
-
+/// Steuerung muss auch mit Controller gehen
+/// NICHT IN TUNNEL AUFRICHTEN SONST DURCH BODEN FALLEN BUG
 
 public class CharacterControl : MonoBehaviour {
 	
@@ -148,9 +148,10 @@ public class CharacterControl : MonoBehaviour {
 					anim.SetBool("isCrouched", true);
 				} else {
 					
-					if (Input.GetButtonDown ("Fire3") && cc.height == minHitHeight) {
+					if (Input.GetKey (KeyCode.LeftShift) && cc.height == minHitHeight) {
 						cc.height = maxHitHeight;											// Mach Hitbox Größer
 						anim.SetBool("isCrouched", false);
+
 						
 					}
 				}
@@ -209,6 +210,7 @@ public class CharacterControl : MonoBehaviour {
 		
 		//}
 	}
+
 	
 	public void Flip()																// die "ich Dreh mich um Funktion"
 	{
