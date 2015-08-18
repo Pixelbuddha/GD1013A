@@ -5,17 +5,20 @@ using UnityEngine.UI;
 
 ///	SHIT TO DO
 
-/// Checkpoint
- 	/// Checkpoint sachen im Checkpoint Speichern, keine Playerprefs
-	/// Leben, Position etc im Checkpoint speichern, und bei tot von dort aufrufen
+
+/// Menü
+
 
 /// Gegner
  	/// Masken auf Amelie
 		/// Kugelrollen
-		/// Death FIx
+		/// Death Fix
 		/// Crushing Walls Foix
 
 		/// Rampen Runterlaufen
+
+/// Totes Kind, hingehen, Knopf, Kind verschwindet, man hat Gelbe Maske
+
 
 public class CharacterControl : MonoBehaviour {
 	
@@ -31,10 +34,12 @@ public class CharacterControl : MonoBehaviour {
 	
 	public bool isLookingRight = true;
 	public bool isGroundedDebug = true;
+
+	public GameObject currentCheckpoint;
 	
 	public GameObject modelGO;
 	
-	private Animator anim;
+	private Animator animPlayer;
 	
 	
 	public Image whiteMaskGUI;
@@ -89,7 +94,7 @@ public class CharacterControl : MonoBehaviour {
 		
 		if (modelGO == null)
 			modelGO = transform.FindChild (transform.name + "_model").gameObject;
-		anim = modelGO.GetComponent<Animator> ();
+		animPlayer = modelGO.GetComponent<Animator> ();
 		cc = GetComponent<CharacterController>();
 		if(cc==null) {Debug.LogError("Missing CharacterController!!!!");enabled=false;return;}
 		hc = GetComponent<HealthController> ();
@@ -120,7 +125,7 @@ public class CharacterControl : MonoBehaviour {
 	void Move()
 	{	
 		if (Input.GetKeyDown(KeyCode.H) ){					// Nächste Maske
-			anim.SetBool ("uDeadBro", true);
+
 		}
 		
 		
@@ -137,14 +142,14 @@ public class CharacterControl : MonoBehaviour {
 		if (!cc.isGrounded) {													// Wenn in Luft
 			moveDirection.y -= gravity * Time.deltaTime;						// mach Gravitiy an (Beschleunigend Linear)
 			isGroundedDebug = false;											// Anzeige um zu schauen ob isGrounded Aktiv ist
-			anim.SetBool ("IsGroundedAnim", isGroundedDebug);
+			animPlayer.SetBool ("IsGroundedAnim", isGroundedDebug);
 		} else {																// Wenn nicht in Luft
 
 			if (Mathf.Abs (velocity) < 0.9)										// Für Keyboardsteuerung, Sobald Horizontal Wert unter 0.9 sinkt (kurz nach loslassender Taste), Bremse
 				moveDirection.x *= 0.175f;										// Wert für Bremsstärke
 			
 			isGroundedDebug = true;												//Debug Anzeige wieder
-			anim.SetBool ("IsGroundedAnim", isGroundedDebug);
+			animPlayer.SetBool ("IsGroundedAnim", isGroundedDebug);
 			moveDirection.y = 0; 												//theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
 			moveDirection.y = -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
 			if (fuckYourCrouch == false) {
@@ -158,7 +163,7 @@ public class CharacterControl : MonoBehaviour {
 				if (Input.GetButtonDown ("Fire3") && cc.height == maxHitHeight) {			// Crouch Funktion
 					cc.height = minHitHeight;												// Mach Hitbox Kleiner
 					transform.GetChild(0).localPosition = new Vector3(0, -0.5f, 0);
-					anim.SetBool("isCrouched", true);
+					animPlayer.SetBool("isCrouched", true);
 					fuckYourCrouch = true;
 				} else {
 					Debug.DrawRay(transform.position, Vector3.up * 2f);
@@ -167,7 +172,7 @@ public class CharacterControl : MonoBehaviour {
 						if (Input.GetKey (KeyCode.LeftShift) && cc.height == minHitHeight) {
 							cc.height = maxHitHeight;											// Mach Hitbox Größer
 							transform.GetChild(0).localPosition = new Vector3(0, -1.11f, 0);
-							anim.SetBool("isCrouched", false);
+							animPlayer.SetBool("isCrouched", false);
 							fuckYourCrouch = false;
 							Debug.Log ("" + hit.collider + "");
 
@@ -183,14 +188,14 @@ public class CharacterControl : MonoBehaviour {
 		//Debug.Log("" + angle + "");
 		cc.Move (moveDirection * Time.deltaTime);								// Bewegen in die Oben ausgerechnete Richtung
 		//Debug.Log (moveDirection * Time.deltaTime);
-		anim.SetFloat ("Speed", Mathf.Abs (velocity));
+		animPlayer.SetFloat ("Speed", Mathf.Abs (velocity));
 		if (moveDirection.y == 0) {
-			anim.SetFloat ("VerticalSpeed", 0);
+			animPlayer.SetFloat ("VerticalSpeed", 0);
 		} else {
 			if (moveDirection.y > 0) {
-				anim.SetFloat ("VerticalSpeed", 1);
+				animPlayer.SetFloat ("VerticalSpeed", 1);
 			} else {
-				anim.SetFloat ("VerticalSpeed", -1);
+				animPlayer.SetFloat ("VerticalSpeed", -1);
 			}
 		}
 		
@@ -295,6 +300,7 @@ public class CharacterControl : MonoBehaviour {
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(false);
 			iAmRed = false;
+			animPlayer.SetBool ("YellowMask", false);
 			
 			
 		}
@@ -312,6 +318,7 @@ public class CharacterControl : MonoBehaviour {
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(false);
 			iAmRed = false;
+			animPlayer.SetBool ("YellowMask", false);
 			
 		}
 		
@@ -328,6 +335,7 @@ public class CharacterControl : MonoBehaviour {
 			redMaskGUI.gameObject.SetActive(true);
 			yellowMaskGUI.gameObject.SetActive(false);
 			iAmRed = true;
+			animPlayer.SetBool ("YellowMask", false);
 		}
 		
 		if (activeMask == (int)MaskType.yellow) {			// Gelbe Maske ( (Im Array Platz 3)
@@ -342,9 +350,12 @@ public class CharacterControl : MonoBehaviour {
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(true);
 			iAmRed = false;
-			
-			
-			
+			animPlayer.SetBool ("YellowMask", true);
+
+			if (Input.GetKeyDown (KeyCode.S)) {
+				animPlayer.SetBool ("S", true);
+			}
+
 		}
 		// had to cast enum to (int) bc Unity couldnt match the int activeMask to the enum MaskType on its own //
 	}

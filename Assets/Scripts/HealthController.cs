@@ -14,6 +14,7 @@ public class HealthController : MonoBehaviour {
 	public bool debugDead = false;
 	private bool isDamageable = true;
 	public float healthRegSpeed;
+	private float lives = 100;
 	//private int lifePoints = 3;
 	
 	public CharacterControl player;
@@ -89,17 +90,29 @@ public class HealthController : MonoBehaviour {
 	
 
 	void Die(){
+	
 		// anim.SetBool("Dying", true);
 		// lifepoints --;
 		//if (lifepoints <=0){
 		//Invoke("StartGame",3);  // Startet das Spiel 3 Sekunden nach dem man den letzten LP verloren hat NEU!
 		// }
+		lives --;
 
-		canvasReference.gameObject.SetActive (false);
-		UpdateView ();
-		player.enabled = false;
-		if (health <= 0) {
-			Invoke("RestartLevel",1);
+
+		if (lives <= 0) {
+			if (health <= 0) {
+				Invoke ("RestartLevel", 1);
+
+				canvasReference.gameObject.SetActive (false);
+				UpdateView ();
+				player.enabled = false;
+			}
+		} else {
+			if (health <= 0) {
+				player.transform.position = player.currentCheckpoint.transform.position;
+				health = startHealth;
+			}
+
 		}
 	}
 	
