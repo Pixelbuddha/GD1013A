@@ -4,20 +4,17 @@ using UnityEngine.UI;
 
 
 ///	SHIT TO DO
-
-
-/// Menü
-
-
-/// Gegner
- 	/// Masken auf Amelie
-		/// Kugelrollen
-		/// Death Fix
-		/// Crushing Walls Foix
-
-		/// Rampen Runterlaufen
-
-/// Totes Kind, hingehen, Knopf, Kind verschwindet, man hat Gelbe Maske
+/// 
+/// /// Menü
+/// 	/// Sound
+/// 		/// Spinnennetz
+///  			/// Masken auf Amelie
+/// 				/// Death Fix
+/// 						/// Totes Kind, hingehen, Knopf, Kind verschwindet, man hat Gelbe Maske
+/// 							/// Gegner
+/// 							/// Kugelrollen
+/// 							/// Crushing Walls Fix
+/// 							/// Rampen Runterlaufen
 
 
 public class CharacterControl : MonoBehaviour {

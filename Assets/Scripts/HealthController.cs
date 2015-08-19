@@ -22,6 +22,7 @@ public class HealthController : MonoBehaviour {
 	// GUI
 
 	public Image healthGUI;
+	public Image nearDeath;
 
 
 	public Canvas canvasReference;
@@ -53,6 +54,7 @@ public class HealthController : MonoBehaviour {
 	public void RepeatHealthReg() {
 		InvokeRepeating("HealthRegeneration", 1, 0.01f);
 	}
+
 
 
 	void ApplyDamage(int damage) {
@@ -146,6 +148,14 @@ public class HealthController : MonoBehaviour {
 
 
 		void UpdateView() {
+		Color textureColor = nearDeath.color;
+		if (health / startHealth < 0.5) {
+			textureColor.a = Mathf.Clamp(Mathf.Abs (Mathf.Sin (Time.time * 2.0f)),0.6f - (health / startHealth), 1f - (health / startHealth));
+		} else {
+			textureColor.a = 0;
+		}
+		Debug.Log ("" + textureColor.a + "");
+		nearDeath.color = textureColor;
 			
 		healthGUI.fillAmount = 1 - (health / startHealth);
 		currenthealth = health;
