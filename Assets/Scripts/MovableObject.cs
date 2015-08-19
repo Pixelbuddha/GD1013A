@@ -24,7 +24,7 @@ public class MovableObject : MonoBehaviour {
 
 	void OnTriggerStay() {
 		if (chara.activeMask == 3) {
-			if (Input.GetKey (KeyCode.S)) {
+			if (Input.GetKey (KeyCode.F)) {
 				Move ();
 			}
 		}

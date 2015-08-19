@@ -6,11 +6,11 @@ using UnityEngine.UI;
 ///	SHIT TO DO
 /// 
 /// /// Menü
-/// 	/// Sound
-/// 		/// Spinnennetz
-///  			/// Masken auf Amelie
-/// 				/// Death Fix
-/// 						/// Totes Kind, hingehen, Knopf, Kind verschwindet, man hat Gelbe Maske
+///		/// Totes Kind, hingehen, Knopf, Kind verschwindet, man hat Gelbe Maske
+/// 		/// Sound
+/// 			/// Spinnennetz
+///  				/// Masken auf Amelie
+/// 					/// Death Fix
 /// 							/// Gegner
 /// 							/// Kugelrollen
 /// 							/// Crushing Walls Fix
@@ -292,7 +292,7 @@ public class CharacterControl : MonoBehaviour {
 			hc.healthRegSpeed = 0.01f;
 			hc.healthReg = 5;
 			
-			whiteMaskGUI.gameObject.SetActive(true);
+			whiteMaskGUI.gameObject.SetActive(true);	// Aktuelle GUI Masken Gruppe Aktivieren, alle anderen Deaktivieren
 			orangeMaskGUI.gameObject.SetActive(false);
 			redMaskGUI.gameObject.SetActive(false);
 			yellowMaskGUI.gameObject.SetActive(false);

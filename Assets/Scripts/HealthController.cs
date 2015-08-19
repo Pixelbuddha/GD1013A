@@ -70,7 +70,7 @@ public class HealthController : MonoBehaviour {
 			if (isDead) {
 				return;
 			}
-			if (health == 0) {
+			if (health <= 0) {
 				isDead = true;
 				Die ();
 
@@ -149,12 +149,11 @@ public class HealthController : MonoBehaviour {
 
 		void UpdateView() {
 		Color textureColor = nearDeath.color;
-		if (health / startHealth < 0.5) {
-			textureColor.a = Mathf.Clamp(Mathf.Abs (Mathf.Sin (Time.time * 2.0f)),0.6f - (health / startHealth), 1f - (health / startHealth));
+		if (health / startHealth < 0.75f) {
+			textureColor.a = Mathf.Clamp(Mathf.Abs (Mathf.Sin (Time.time * 2.0f)),0.75f - (health / startHealth), 1f - (health / startHealth));
 		} else {
 			textureColor.a = 0;
 		}
-		Debug.Log ("" + textureColor.a + "");
 		nearDeath.color = textureColor;
 			
 		healthGUI.fillAmount = 1 - (health / startHealth);

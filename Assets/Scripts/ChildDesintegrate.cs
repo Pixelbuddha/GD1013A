@@ -3,21 +3,19 @@ using System.Collections;
 
 public class ChildDesintegrate : MonoBehaviour {
 
-	public CharacterControl player;
-	
-	void Start () {
-		
+	private Animator childAnim;
+	public GameObject model;
+
+	void Start() {
+		childAnim = model.GetComponent<Animator> ();
 	}
-	
+
 	void OnTriggerEnter(Collider col) {
 		
 		if (col.tag == "Player") {
-
-		}
-		
+			Debug.Log("HIT");
+			childAnim.SetBool("Disappear", true);
+			Destroy(this.gameObject, 6.5f);
+					}
+			}
 	}
-
-	void Update () {
-	
-	}
-}
