@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 ///	SHIT TO DO
 /// 
-/// /// Menü
 ///		/// Totes Kind, hingehen, Knopf, Kind verschwindet, man hat Gelbe Maske
-/// 		/// Sound
 /// 			/// Spinnennetz
 ///  				/// Masken auf Amelie
 /// 					/// Death Fix
@@ -18,11 +16,12 @@ using UnityEngine.UI;
 
 
 public class CharacterControl : MonoBehaviour {
-	
+
+
 	public const int layerNumber = 9;
 	public float maxHitHeight = 2.98f;
 	public float minHitHeight = 1.5f;
-	public bool fuckYourCrouch = false;
+	public bool isCrouchedCheck = false;
 
 	public float maxSpeed = 20;
 	public float jumpForce = 10;
@@ -119,13 +118,10 @@ public class CharacterControl : MonoBehaviour {
 		
 	}
 	
-	void Move()
-	{	
-		if (Input.GetKeyDown(KeyCode.H) ){					// Nächste Maske
+	void Move() {	
 
-		}
-		
-		
+		if (Input.GetKey("escape"))
+			Application.Quit();
 		float velocity = Input.GetAxis ("Horizontal");
 		
 		//		ControllerColliderHit schraeg_hit = new ControllerColliderHit();
@@ -149,7 +145,7 @@ public class CharacterControl : MonoBehaviour {
 			animPlayer.SetBool ("IsGroundedAnim", isGroundedDebug);
 			moveDirection.y = 0; 												//theoretisch nicht notwendig, wichtig falls jump auskommentiet wird
 			moveDirection.y = -gravity * Time.deltaTime;						// konstante nicht beschleunigende Gravity
-			if (fuckYourCrouch == false) {
+			if (isCrouchedCheck == false) {
 			if (Input.GetButtonDown ("Jump")) {									// Steuerungseingabe (Keyboard Spacebar, Controller das dementsprechende)
 				moveDirection.y = jumpForce;									// hcchspringen
 				//Debug.Log("Jump:"+jumpForce);									// Log Anzeige für die Kraft des Sprungs
@@ -161,7 +157,7 @@ public class CharacterControl : MonoBehaviour {
 					cc.height = minHitHeight;												// Mach Hitbox Kleiner
 					transform.GetChild(0).localPosition = new Vector3(0, -0.5f, 0);
 					animPlayer.SetBool("isCrouched", true);
-					fuckYourCrouch = true;
+					isCrouchedCheck = true;
 				} else {
 					Debug.DrawRay(transform.position, Vector3.up * 2f);
 					RaycastHit hit;
@@ -170,7 +166,7 @@ public class CharacterControl : MonoBehaviour {
 							cc.height = maxHitHeight;											// Mach Hitbox Größer
 							transform.GetChild(0).localPosition = new Vector3(0, -1.11f, 0);
 							animPlayer.SetBool("isCrouched", false);
-							fuckYourCrouch = false;
+							isCrouchedCheck = false;
 							Debug.Log ("" + hit.collider + "");
 
 						}
@@ -201,6 +197,8 @@ public class CharacterControl : MonoBehaviour {
 			Flip ();																// dann dreh dich um
 		
 		//Debug.Log ("Velocity is:" + velocity + "");
+
+
 	}
 	
 	
